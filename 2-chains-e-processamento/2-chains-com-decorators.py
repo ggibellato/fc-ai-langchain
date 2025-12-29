@@ -4,6 +4,10 @@ from langchain_core.runnables import chain
 from dotenv import load_dotenv
 load_dotenv()
 
+# @chain
+# def square(x: int) -> int:
+#     return x * x
+
 @chain
 def square(input_dict: dict) -> dict:
     x = input_dict["x"]
@@ -25,6 +29,7 @@ chain = question_template | model
 chain2 = square | question_template2 | model
 
 #result = chain.invoke({"name": "Gleison"})
+#result = chain2.invoke(5)
 result = chain2.invoke({"x": 10})
 
 print(result.content)
