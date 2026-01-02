@@ -79,6 +79,6 @@ agent_executor = AgentExecutor(
     max_iterations=3
 )
 
-#print(agent_executor.invoke({"input": "What is the capital of Iran?"}))
+print(agent_executor.invoke({"input": "What is the capital of Iran?"}))
 #print(agent_executor.invoke({"input": "What is the capital of Brazil?"}))
-print(agent_executor.invoke({"input": "How much is 10 + 10?"}))
+#print(agent_executor.invoke({"input": "How much is 10 + 10?"}))
