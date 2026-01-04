@@ -4,12 +4,12 @@ from dotenv import load_dotenv
 
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_google_genai import GoogleGenerativeAIEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_core.documents import Document
 from langchain_postgres import PGVector
 
 load_dotenv()
-for k in ("GOOGLE_API_KEY", "PGVECTOR_URL","PGVECTOR_COLLECTION"):
+for k in ("PGVECTOR_URL","PGVECTOR_COLLECTION"):
     if not os.getenv(k):
         raise RuntimeError(f"Environment variable {k} is not set")
 
@@ -44,8 +44,12 @@ enriched = [
 
 ids = [f"doc-{i}" for i in range(len(enriched))]
 
+# OpenAI embeddings (requires API key and credits)
 #embeddings = OpenAIEmbeddings(model=os.getenv("OPENAI_MODEL","text-embedding-3-small"))
-embeddings = GoogleGenerativeAIEmbeddings(model=os.getenv("GOOGLE_MODEL","models/embedding-001"))
+# Google AI embeddings (requires API key, free tier has limits)
+#embeddings = GoogleGenerativeAIEmbeddings(model=os.getenv("GOOGLE_MODEL","models/embedding-001"))
+# Local embeddings - no API key required
+embeddings = HuggingFaceEmbeddings(model=os.getenv("HUGGINGFACE_MODEL","sentence-transformers/all-MiniLM-L6-v2"))
 
 store = PGVector(
     embeddings=embeddings,
